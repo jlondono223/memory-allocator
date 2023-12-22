@@ -5,7 +5,6 @@
 #include "memory_allocator.h"
 
 extern char __data_start, _end;
-
 static void *global_start = &__data_start;
 static void *global_end = &_end;
 
@@ -163,8 +162,7 @@ static void GC_sweep(void) {
                 void (*finalize)(void *) = (void (*)(void *))current->finalizer_address;
                 finalize((void *)(current + 1));
             }
-            // Mark block as free
-            current->allocated = 0;
+            current->allocated = 0; // Mark Block as free
         }
         current = (BlockHeader *)((char *)current + sizeof(BlockHeader) + current->size);
     }
